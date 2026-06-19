@@ -1,13 +1,18 @@
 from datetime import datetime
 from market import get_price
-
+from storage import (
+    save_portfolio,
+    save_transactions,load_portfolio, load_transactions
+)
 # ---------------- USER DATA ---------------- #
 
-balance = 10000.0
 
-portfolio = {}
+saved = load_portfolio()
 
-transactions = []
+balance = saved["balance"]
+portfolio = saved["portfolio"]
+
+transactions = load_transactions()
 
 
 # ---------------- BUY ---------------- #
@@ -61,7 +66,10 @@ def buy_stock(symbol, qty):
         "stock": symbol,
         "qty": qty,
         "price": price
+        
     })
+    save_portfolio(balance, portfolio)
+    save_transactions(transactions)
 
     return True, "Stock Purchased Successfully."
 
@@ -96,9 +104,10 @@ def sell_stock(symbol, qty):
         "qty": qty,
         "price": price
     })
-
     if portfolio[symbol]["qty"] == 0:
         del portfolio[symbol]
+    save_portfolio(balance, portfolio)
+    save_transactions(transactions)
 
     return True, "Stock Sold Successfully."
 
