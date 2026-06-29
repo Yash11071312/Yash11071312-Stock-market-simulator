@@ -4,41 +4,95 @@ from tkinter import ttk, messagebox
 from market import *
 from portfolio import *
 from charts import show_chart
+
 root = tk.Tk()
 
 root.title("SYS Stocks V2")
 root.geometry("1200x700")
 root.configure(bg="#1e1e1e")
-market_frame = tk.Frame(root, bg="#2b2b2b")
-market_frame.pack(side="left", fill="both", expand=True, padx=10, pady=10)
 
-portfolio_frame = tk.Frame(root, bg="#2b2b2b")
-portfolio_frame.pack(side="right", fill="both", expand=True, padx=10, pady=10)
+# ================= MAIN FRAME =================
 
-bottom_frame = tk.Frame(root, bg="#2b2b2b")
-bottom_frame.pack(side="bottom", fill="x", padx=10, pady=10)
+main_frame = tk.Frame(root, bg="#1e1e1e")
+main_frame.pack(fill="both", expand=True)
+
+# ================= TOP AREA =================
+
+top_frame = tk.Frame(main_frame, bg="#1e1e1e")
+top_frame.pack(fill="both", expand=True)
+
+market_frame = tk.Frame(
+    top_frame,
+    bg="#2b2b2b",
+    bd=2,
+    relief="ridge"
+)
+
+market_frame.pack(
+    side="left",
+    fill="both",
+    expand=True,
+    padx=10,
+    pady=10
+)
+
+portfolio_frame = tk.Frame(
+    top_frame,
+    bg="#2b2b2b",
+    bd=2,
+    relief="ridge"
+)
+
+portfolio_frame.pack(
+    side="right",
+    fill="both",
+    expand=True,
+    padx=10,
+    pady=10
+)
+
+# ================= BOTTOM =================
+
+transaction_frame = tk.Frame(
+    main_frame,
+    bg="#2b2b2b",
+    bd=2,
+    relief="ridge",
+    height=200
+)
+
+transaction_frame.pack(
+    fill="x",
+    padx=10,
+    pady=10
+)
+
+# ================= TITLES =================
+
 tk.Label(
     market_frame,
-    text="Market",
-    font=("Arial", 18, "bold"),
+    text="📈 Market",
     bg="#2b2b2b",
-    fg="white"
-).pack()
+    fg="white",
+    font=("Arial", 18, "bold")
+).pack(pady=10)
 
 tk.Label(
     portfolio_frame,
-    text="Portfolio",
-    font=("Arial", 18, "bold"),
+    text="💼 Portfolio",
     bg="#2b2b2b",
-    fg="white"
-).pack()
+    fg="white",
+    font=("Arial", 18, "bold")
+).pack(pady=10)
 
 tk.Label(
-    bottom_frame,
-    text="Transactions",
-    font=("Arial", 18, "bold"),
+    transaction_frame,
+    text="📜 Transactions",
     bg="#2b2b2b",
-    fg="white"
-).pack()
+    fg="white",
+    font=("Arial", 18, "bold")
+).pack(pady=10)
+
+
 def start_app():
     root.mainloop()
