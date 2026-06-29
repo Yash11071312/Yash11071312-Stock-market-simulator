@@ -115,7 +115,27 @@ market_table.column("High", width=80, anchor="center")
 market_table.column("Low", width=80, anchor="center")
 
 market_table.pack(fill="both", expand=True, padx=10, pady=10)
+
+market_table.tag_configure(
+    "green",
+    foreground="#00cc66"
+)
+
+market_table.tag_configure(
+    "red",
+    foreground="#ff4444"
+)
+
+market_table.tag_configure(
+    "white",
+    foreground="black"
+)
+market_table.tag_configure("green", foreground="green")
+market_table.tag_configure("red", foreground="red")
+market_table.tag_configure("white", foreground="black")
 def refresh_market():
+
+    update_market()
 
     market_table.delete(*market_table.get_children())
 
@@ -124,18 +144,36 @@ def refresh_market():
         change = get_change(symbol)
         percent = get_change_percent(symbol)
 
+        if change > 0:
+            tag = "green"
+            change_text = f"+{change}"
+            percent_text = f"+{percent}%"
+
+        elif change < 0:
+            tag = "red"
+            change_text = str(change)
+            percent_text = f"{percent}%"
+
+        else:
+            tag = "white"
+            change_text = "0"
+            percent_text = "0%"
+
         market_table.insert(
             "",
             "end",
             values=(
                 symbol,
                 stock["price"],
-                change,
-                f"{percent}%",
+                change_text,
+                percent_text,
                 stock["high"],
                 stock["low"]
-            )
+            ),
+            tags=(tag,)
         )
+
+    root.after(3000, refresh_market)
 def start_app():
     refresh_market()
     root.mainloop()
